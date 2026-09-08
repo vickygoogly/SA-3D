@@ -1,0 +1,1 @@
+Place browser-compatible MP4/WebM files here. Example: configure CAM-021 to /media/separator-demo.mp4 in backend/config.json. Restart server after config changes. Files are streamed with HTTP range support. No sample footage is included.
