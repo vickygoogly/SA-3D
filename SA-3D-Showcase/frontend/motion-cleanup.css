@@ -1,0 +1,3 @@
+/* Keep positional assets stable; movement is reserved for personnel patrols. */
+.spatial-pin,.spatial-pin.alert-pin{animation:none!important;margin-top:0!important}
+.spatial-pin:not(.alert-pin){width:18px!important;height:18px!important;font-size:11px!important;opacity:.78}.spatial-pin:not(.alert-pin):hover,.spatial-pin:not(.alert-pin):focus-visible{opacity:1}
