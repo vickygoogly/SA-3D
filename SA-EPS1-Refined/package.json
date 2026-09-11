@@ -1,0 +1,16 @@
+{
+  "name": "signal-atlas-plant-operations",
+  "version": "6.1.0",
+  "private": true,
+  "description": "Local Situational Awareness 3D showcase",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node backend/server.mjs",
+    "dev": "node backend/server.mjs",
+    "build:model": "node scripts/build-eps1.mjs",
+    "test": "node --test backend/server.test.mjs && node scripts/validate-campus.mjs && node scripts/validate-vehicle-clearance.mjs"
+  },
+  "type": "module"
+}
