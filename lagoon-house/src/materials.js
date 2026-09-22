@@ -1,0 +1,11 @@
+import * as T from 'three';
+export function materials(renderer){
+ const loader=new T.TextureLoader();
+ const stoneMap=loader.load('/textures/travertine.webp');stoneMap.colorSpace=T.SRGBColorSpace;stoneMap.wrapS=stoneMap.wrapT=T.RepeatWrapping;stoneMap.repeat.set(2,2);stoneMap.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=512;const c=canvas.getContext('2d');
+ c.fillStyle='#8a6545';c.fillRect(0,0,512,512);let seed=19;const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+ for(let i=0;i<850;i++){const x=rnd()*512; c.strokeStyle=`rgba(${rnd()>.5?'48,25,12':'216,172,120'},${.04+rnd()*.15})`;c.lineWidth=.3+rnd()*2;c.beginPath();c.moveTo(x,0);for(let y=0;y<=512;y+=8)c.lineTo(x+Math.sin(y*.015+i)*3,y);c.stroke();}
+ const woodMap=new T.CanvasTexture(canvas);woodMap.colorSpace=T.SRGBColorSpace;woodMap.wrapS=woodMap.wrapT=T.RepeatWrapping;woodMap.repeat.set(2,1);
+ const mat=(color,roughness=.6,extras={})=>new T.MeshStandardMaterial({color,roughness,...extras});
+ return {stone:mat('#d9cbb5',.78,{map:stoneMap,bumpMap:stoneMap,bumpScale:.018}),floor:mat('#d9d2c1',.45,{map:stoneMap,bumpMap:stoneMap,bumpScale:.007}),plaster:mat('#eee6d9',.85),wood:mat('#c9a175',.55,{map:woodMap}),walnut:mat('#735038',.5,{map:woodMap}),dark:mat('#252c2b',.4,{metalness:.55}),metal:mat('#a28c64',.26,{metalness:.8}),glass:new T.MeshPhysicalMaterial({color:'#dceae6',roughness:.07,metalness:.1,transparent:true,opacity:.23,depthWrite:false,side:T.DoubleSide}),screen:mat('#666e64',.55,{metalness:.25}),fabric:mat('#d7cdbb',.94),fabric2:mat('#a8b0a0',1),white:mat('#f5eee3',.6),rug:mat('#b7ab97',1),black:mat('#181e1e',.28),sand:mat('#dac7a0',1,{map:stoneMap,bumpMap:stoneMap,bumpScale:.025}),soil:mat('#473f2c',1),rock:mat('#9a9989',.94,{map:stoneMap,bumpMap:stoneMap,bumpScale:.09}),leaf:mat('#48634a',.85,{side:T.DoubleSide}),leaf2:mat('#758253',.85,{side:T.DoubleSide}),grass:mat('#6f7e53',1),waterbed:mat('#bbd4bb',.9,{map:stoneMap}),led:mat('#fff0c4',.4,{emissive:'#ffc779',emissiveIntensity:1.0}),screenTv:mat('#182c31',.25,{emissive:'#263e47',emissiveIntensity:.35}),car:mat('#e9e7df',.24,{metalness:.72}),car2:mat('#425055',.26,{metalness:.7})};
+}

@@ -1,0 +1,20 @@
+# Prototype Instructions
+
+Run the local server yourself and open the preview in the browser available to this environment. Do not give the user server-start instructions when you can run it.
+
+Before making substantial visual changes, use the Product Design plugin's `get-context` skill when the visual source is unclear or no longer matches the current goal. When the user gives durable prototype-specific design feedback, preferences, or decisions, record them in `AGENTS.md`.
+
+When implementing from a selected generated mock, treat that image as the source of truth for layout, component anatomy, density, spacing, color, typography, visible content, and hierarchy.
+
+Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
+
+## Lagoon House requirements
+
+- Preserve the lagoon boundary, beach edge and staircase geometry in every performance mode. Optimize textures, planting density/LODs, hidden geometry, batching and shadow/pixel budgets first.
+- Plot is 30 ft north frontage × 40 ft deep; north road; east-facing residential main door; ground arrival/parking/lagoon; four bedrooms above.
+- Revision 02: the user rejects the spiral stair. Use the first image’s interior-stair character: two straight flights, a quarter-turn landing, flared entrance treads and a sculptural underside. Never restore the old 300-degree winding stair.
+- User deployment target is GitHub → Render. Keep the project self-contained and document both Static Site and Node Web Service settings.
+- Never call this construction-ready or fully Vastu-compliant; record actual planning compromises and verification gaps.
+
+- Use `src/layout.js` as the authoritative dimensional source for the 2D plan and 3D scene. Plot is exactly 30 × 40 ft. Keep true-size furniture, a 1.65 m eye-level camera and a 1.70 m scale figure.
+- Show clear room sizes, approximate feet/inches equivalents, irregular polygon areas and overall shaft/atrium footprints explicitly. Do not exaggerate room size with a wide-angle camera or omit planning compromises.

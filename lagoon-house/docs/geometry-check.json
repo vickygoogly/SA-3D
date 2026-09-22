@@ -1,0 +1,17 @@
+{
+  "floors": 4,
+  "stairStoreys": 3,
+  "flightsPerStorey": 2,
+  "risersPerStorey": 20,
+  "riserMetres": 0.165,
+  "nominalStairWidth": 1.2,
+  "goingMetres": 0.29,
+  "lagoonSegments": 192,
+  "measuredSpaces": 43,
+  "meshes": 229,
+  "triangles": 208276,
+  "invalid": 0,
+  "collisionWalls": 49,
+  "geometryValidation": "passed",
+  "visualValidation": "blocked: cloud browser WebGL disabled"
+}
