@@ -1,0 +1,13 @@
+import * as THREE from 'three';
+import {createVilla} from '../src/villa.js';
+import {writeFileSync} from 'node:fs';
+const names=['stone','floor','plaster','wood','walnut','dark','metal','glass','screen','fabric','fabric2','white','rug','black','sand','soil','rock','leaf','leaf2','grass','waterbed','led','screenTv','car','car2'];
+const colors=['#d9cbb5','#d9d2c1','#eee6d9','#c9a175','#735038','#252c2b','#a28c64','#dceae6','#666e64','#d7cdbb','#a8b0a0','#f5eee3','#b7ab97','#181e1e','#dac7a0','#473f2c','#9a9989','#48634a','#758253','#6f7e53','#bbd4bb','#fff0c4','#182c31','#e9e7df','#425055'];
+const materials=Object.fromEntries(names.map((n,i)=>[n,new THREE.MeshStandardMaterial({name:n,color:colors[i],roughness:n==='metal'?.25:.7,metalness:n==='metal'?.7:0,transparent:n==='glass',opacity:n==='glass'?.23:1,side:n.includes('leaf')?THREE.DoubleSide:THREE.FrontSide})]));
+const scene=new THREE.Scene();const villa=createVilla(scene,materials);scene.updateMatrixWorld(true);let triangles=0,meshes=0,invalid=0;const exportMeshes=[];
+scene.traverse(o=>{if(!o.isMesh)return;meshes++;const pos=o.geometry.getAttribute('position');for(const v of pos.array)if(!Number.isFinite(v))invalid++;triangles+=(o.geometry.index?o.geometry.index.count:pos.count)/3;
+ const copy=o.geometry.clone();copy.applyMatrix4(o.matrixWorld);const vertices=Array.from(copy.getAttribute('position').array);const indices=o.geometry.index?Array.from(o.geometry.index.array):Array.from({length:pos.count},(_,i)=>i);let level=-1;for(let i=0;i<4;i++){let p=o;while(p){if(p===villa.floors[i])level=i;p=p.parent;}}let p=o;while(p){if(villa.roofs.includes(p))level=4;p=p.parent;}if(villa.stairs.some(g=>{let p=o;while(p){if(p===g)return true;p=p.parent;}return false;}))level=Math.floor(o.parent.position.y/3.3);
+ const mat=o.material;exportMeshes.push({name:mat.name||o.type,level,vertices,indices,color:mat.color?.toArray()||[.1,.5,.5],opacity:mat.opacity??1,roughness:mat.roughness??.15,metalness:mat.metalness??.1,water:o===villa.water});copy.dispose();});
+if(invalid)throw new Error(invalid+' invalid vertex coordinates');if(villa.floors.length!==4||villa.stairs.length!==3)throw new Error('Missing floor or stair');
+const report={floors:villa.floors.length,stairFlights:villa.stairs.length,risersPerFlight:villa.stair.n,riserMetres:3.3/villa.stair.n,clearStairWidth:villa.stair.ro-villa.stair.ri,meshes,triangles,invalid,collisionWalls:villa.colliders.length,geometryValidation:'passed',visualValidation:'blocked: cloud browser WebGL disabled'};
+writeFileSync('docs/geometry-check.json',JSON.stringify(report,null,2));if(process.env.EXPORT_GEOMETRY)writeFileSync(process.env.EXPORT_GEOMETRY,JSON.stringify(exportMeshes));console.log(report);

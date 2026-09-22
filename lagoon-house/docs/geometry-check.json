@@ -1,0 +1,13 @@
+{
+  "floors": 4,
+  "stairFlights": 3,
+  "risersPerFlight": 20,
+  "riserMetres": 0.16499999999999998,
+  "clearStairWidth": 1.2,
+  "meshes": 287,
+  "triangles": 277722,
+  "invalid": 0,
+  "collisionWalls": 52,
+  "geometryValidation": "passed",
+  "visualValidation": "blocked: cloud browser WebGL disabled"
+}
