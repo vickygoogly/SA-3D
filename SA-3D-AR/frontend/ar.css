@@ -1,0 +1,35 @@
+/* The AR overlay is deliberately separate from the application dashboard. */
+#ar-overlay{position:fixed;inset:0;width:100%;height:100%;height:100dvh;background:transparent!important;pointer-events:none;z-index:1000;color:#effffc;font:14px/1.4 Inter,Segoe UI,Arial,sans-serif;overflow:hidden;color-scheme:dark}
+#ar-overlay:xr-overlay{background:transparent}
+body.ar-active{overflow:hidden;background:transparent!important}
+body.ar-active>header,body.ar-active>.rail,body.ar-active>main,body.ar-active>#feed-dialog,body.ar-active>#toast{display:none!important}
+#ar-overlay [data-ar-ui]{pointer-events:auto}
+#ar-overlay button{min-height:44px;font-size:13px;padding:9px 12px;background:#092431ed;border:1px solid #4f7c87;color:#edfffc;box-shadow:0 2px 10px #0003}
+#ar-overlay button:active{background:#175054}
+#ar-overlay .ar-top{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:8px;align-items:flex-start;pointer-events:none}
+#ar-status{background:#08232ce8;border:1px solid #4c8788;border-radius:8px;padding:8px 12px;font-size:12px;max-width:65%}
+#ar-status b{display:block;color:#65f6dc;letter-spacing:1px;font-size:11px}
+#ar-instruction{position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(90%,440px);margin:0;padding:16px 20px;border:1px solid #6fdacb;border-radius:12px;background:#071e2ae8;box-shadow:0 6px 24px #0004;text-align:center;font-size:17px;line-height:1.5;text-wrap:balance}
+#ar-controls{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));left:12px;right:12px;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+#ar-controls button{padding:9px 10px;backdrop-filter:blur(8px)}
+#ar-pins{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#ar-pins button{position:absolute;transform:translate(-50%,-100%);min-height:30px;padding:5px 8px;font-size:11px;white-space:nowrap;border-radius:6px;pointer-events:auto}
+#ar-pins .alert{border-color:#ff8792;background:#4d2532ed;color:#ffe3e6}
+#ar-pins .permit{border-color:#ffd17a;color:#ffdb97}
+#ar-pins .vehicle{border-color:#96b8ff;color:#d9e6ff}
+#ar-pins .drone{border-color:#52edd2;color:#8affeb}
+#ar-pins .zone{font-size:9px;color:#dae7ec;background:#0a222abb;border-color:#32545b;min-height:24px;pointer-events:none}
+#ar-pins .ar-selected{outline:2px solid #87ffdf;outline-offset:3px;background:#125549}
+#ar-panel{position:absolute;bottom:calc(116px + env(safe-area-inset-bottom));left:12px;right:12px;max-width:430px;margin:0 auto;border:1px solid #538b91;border-top:2px solid #60ecd5;border-radius:14px;background:#071b27f5;box-shadow:0 8px 30px #0006;overflow:hidden;pointer-events:auto}
+.ar-panel-head{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #25434e}
+#ar-panel-title{font-size:13px;letter-spacing:.4px}
+#ar-overlay #ar-panel-close{padding:0 10px;min-width:44px;font-size:21px;border:0;box-shadow:none}
+#ar-selection{padding:14px;max-height:36dvh;overflow:auto;overscroll-behavior:contain;font-size:13px}
+#ar-selection h2{font-size:17px;margin:0 0 8px}#ar-selection p{margin:7px 0}#ar-selection .eyebrow{font-size:9px;color:#5bf0d7}#ar-selection .hint{font-size:11px;padding:8px}#ar-selection .kpi-grid{margin:10px 0;gap:6px}#ar-selection .kpi-grid div{padding:7px}#ar-selection .kpi-grid b{font-size:16px}#ar-selection .kpi-grid small{font-size:10px}#ar-selection .detail-list{font-size:12px}#ar-selection .detail-actions{margin-top:10px!important}
+#ar-selection .ar-row{display:block;width:100%;text-align:left;margin:6px 0;font-size:12px;box-shadow:none}#ar-selection .ar-row small{display:block;color:#adc6ce}#ar-selection input[type=search]{padding:10px;border:1px solid #406978;border-radius:6px;background:#092431;color:white;width:100%;margin-bottom:8px}#ar-selection label{display:flex;align-items:center;gap:10px;min-height:42px}#ar-selection video{max-height:24dvh}#ar-selection .feed-badge{font-size:9px;top:5px;left:5px;padding:3px 5px}#ar-selection [data-feed-status]{font-size:11px;color:#adc6ce}
+#ar-locator,#ar-message{position:absolute;left:50%;transform:translateX(-50%);max-width:88%;padding:8px 12px;border-radius:8px;background:#062a32ed;border:1px solid #4fafaa;font-size:12px;text-align:center}
+#ar-locator{top:82px}#ar-message{top:128px}
+/* Defense in depth: a delayed callback can never expose panels before placement. */
+#ar-overlay[data-stage=scanning] #ar-controls,#ar-overlay[data-stage=scanning] #ar-panel,#ar-overlay[data-stage=scanning] #ar-pins,#ar-overlay[data-stage=scanning] #ar-status,#ar-overlay[data-stage=scanning] #ar-locator,#ar-overlay[data-stage=scanning] #ar-message{display:none!important}
+@media(min-width:700px){#ar-panel{left:auto;right:18px;width:360px;bottom:90px}#ar-selection{max-height:48dvh}}
+@media(max-height:520px){#ar-panel{left:auto;right:8px;bottom:70px;width:min(340px,55vw)}#ar-selection{max-height:48dvh}#ar-controls{flex-wrap:nowrap}#ar-controls button{padding:7px;font-size:11px}#ar-instruction{bottom:18px;font-size:15px}}
